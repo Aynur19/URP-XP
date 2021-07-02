@@ -5,13 +5,11 @@ public class PlayerMover : MonoBehaviour
 	public CharacterController character;
 	public Transform groundCheck;
 	public float groundDistance = 0.4f;
+	public float jumpHeight = 3f;
 	public LayerMask groundMask;
 
 	[SerializeField]
 	private float moveSpeed;
-
-	[SerializeField]
-	private float jumpForce;
 
 	[SerializeField]
 	private float gravity = -9.81f;
@@ -23,7 +21,7 @@ public class PlayerMover : MonoBehaviour
 	private void Awake()
 	{
 		actions = new PlayerInput();
-		//actions.Player.Jump.performed += x => Jump();
+		actions.Player.Jump.performed += x => Jump();
 	}
 
 	private void OnEnable()
@@ -40,10 +38,8 @@ public class PlayerMover : MonoBehaviour
 	{
 		UpdateVelosity();
 
-
 		var moveDirection = actions.Player.Move.ReadValue<Vector2>();
 		Move(moveDirection);
-
 	}
 
 	private void Move(Vector2 direction)
@@ -75,8 +71,11 @@ public class PlayerMover : MonoBehaviour
 		}
 	}
 
-	//private void Jump()
-	//{
-
-	//}
+	private void Jump()
+	{
+		if (isGrounded)
+		{
+			velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+		}
+	}
 }
