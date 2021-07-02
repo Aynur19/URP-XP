@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerMover : MonoBehaviour
 {
+	public CharacterController character;
+
 	[SerializeField]
 	private float moveSpeed;
 
@@ -16,7 +15,7 @@ public class PlayerMover : MonoBehaviour
 	private void Awake()
 	{
 		actions = new PlayerInput();
-		actions.Player.Jump.performed += x => Jump();
+		//actions.Player.Jump.performed += x => Jump();
 	}
 
 	private void OnEnable()
@@ -39,12 +38,20 @@ public class PlayerMover : MonoBehaviour
 	{
 		var scaledMoveSpeed = moveSpeed * Time.deltaTime;
 
-		var moveDirection = new Vector3(direction.x, 0, direction.y);
-		transform.position += moveDirection * scaledMoveSpeed;
+		if (character != null)
+		{
+			var move = (transform.right * direction.x + transform.forward * direction.y) * scaledMoveSpeed;
+			character.Move(move);
+		}
+		else
+		{
+			var moveDirection = new Vector3(direction.x, 0, direction.y);
+			transform.position += moveDirection * scaledMoveSpeed;
+		}
 	}
 
-	private void Jump()
-	{
+	//private void Jump()
+	//{
 
-	}
+	//}
 }
