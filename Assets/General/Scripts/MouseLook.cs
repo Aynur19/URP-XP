@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseLook : MonoBehaviour
@@ -35,6 +33,11 @@ public class MouseLook : MonoBehaviour
 	private void Update()
 	{
 		var deltaLook = actions.Player.Look.ReadValue<Vector2>();
+		Look(deltaLook);
+	}
+
+	private void Look(Vector2 deltaLook)
+	{
 		var deltaX = deltaLook.x * mouseSensitivity * Time.deltaTime;
 		var deltaY = deltaLook.y * mouseSensitivity * Time.deltaTime;
 
