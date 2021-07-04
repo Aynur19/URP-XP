@@ -8,13 +8,10 @@ public class PlayerPhysicMovement : MonoBehaviour
 	private float speed = 10f;
 
 	[SerializeField]
-	private float jumpForce = 300f;
+	private float jumpForce = 200f;
 
 	[SerializeField]
 	private LayerMask groundLayer = 1;
-
-	//[SerializeField]
-	//private Transform groundCheck;
 
 	private Rigidbody rb;
 	private CapsuleCollider playerCollider;
@@ -78,39 +75,14 @@ public class PlayerPhysicMovement : MonoBehaviour
 
 	private void Jump()
 	{
-		//Debug.Log($"Is Grounded = {IsGrounded}");
 		if (IsGrounded)
 		{
-			Debug.Log($"AddForce = {Vector3.up * jumpForce}");
 			rb.AddRelativeForce(Vector3.up * jumpForce, ForceMode.Impulse);
 		}
 	}
-
-	//private void OnCollisionEnter(Collision collision)
-	//{
-	//	rb.angularVelocity = new Vector3(0f, 0f, 0f);
-
-	//	//IsGroundedUpdate(collision, true);
-	//}
-
-	//private void OnCollisionExit(Collision collision)
-	//{
-	//	rb.angularVelocity = new Vector3(0f, 0f, 0f);
-
-
-	//	//IsGroundedUpdate(collision, false);
-	//}
 
 	private void OnCollisionStay(Collision collision)
 	{
 		rb.angularVelocity = new Vector3(0f, 0f, 0f);
 	}
-
-	//private void IsGroundedUpdate(Collision collision, bool value)
-	//{
-	//	if (collision.gameObject.CompareTag("Ground"))
-	//	{
-	//		isGrounded = value;
-	//	}
-	//}
 }

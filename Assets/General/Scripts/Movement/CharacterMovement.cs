@@ -1,22 +1,46 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class CharacterMovement : MonoBehaviour
 {
-	public CharacterController character;
+	[SerializeField]
 	public Transform groundCheck;
+
+	[SerializeField]
 	public float groundDistance = 0.4f;
-	public float jumpHeight = 3f;
+
+	[SerializeField]
+	public float jumpForce = 3f;
+
+	[SerializeField]
 	public LayerMask groundMask;
 
 	[SerializeField]
-	private float moveSpeed;
+	private float speed;
 
 	[SerializeField]
 	private float gravity = -9.81f;
 
+	private CharacterController character;
 	private PlayerInput actions;
 	private Vector3 velocity;
-	private bool isGrounded;
+
+	private Vector3 MovementDirection
+	{
+		get
+		{
+			var moveDirection = actions.Player.Move.ReadValue<Vector2>();
+			return new Vector3(moveDirection.x, 0f, moveDirection.y);
+		}
+	}
+	
+	private bool IsGrounded
+	{
+		get
+		{
+			return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+		}
+	}
 
 	private void Awake()
 	{
@@ -34,48 +58,30 @@ public class CharacterMovement : MonoBehaviour
 		actions.Disable();
 	}
 
-	private void Update()
+	private void Start()
+	{
+		character = GetComponent<CharacterController>();
+	}
+
+	private void FixedUpdate()
 	{
 		UpdateVelosity();
-
-		var moveDirection = actions.Player.Move.ReadValue<Vector2>();
-		Move(moveDirection);
+		Movement();
 	}
 
-	private void Move(Vector2 direction)
+	private void Movement()
 	{
-		var scaledMoveSpeed = moveSpeed * Time.deltaTime;
-
-		if (character != null)
-		{
-			MoveWithCharacterController(direction, scaledMoveSpeed);
-		}
-		else
-		{
-			MoveWithOutCharacterController(direction, scaledMoveSpeed);
-		}
-	}
-
-	private void MoveWithCharacterController(Vector2 direction, float scaledMoveSpeed)
-	{
-		var move = (transform.right * direction.x + transform.forward * direction.y) * scaledMoveSpeed;
-		character.Move(move);
 		velocity.y += gravity * Time.deltaTime;
-		character.Move(velocity * Time.deltaTime);
-	}
-
-	private void MoveWithOutCharacterController(Vector2 direction, float scaledMoveSpeed)
-	{
-		var moveDirection = new Vector3(direction.x, 0, direction.y);
-		transform.position += moveDirection * scaledMoveSpeed;
-		velocity.y += gravity * Time.deltaTime;
-		transform.position += velocity * Time.deltaTime;
+		
+		var move = MovementDirection;
+		move = (transform.right * move.x + transform.forward * move.z) * speed;
+		
+		character.Move((move + velocity) * Time.deltaTime);
 	}
 
 	private void UpdateVelosity()
 	{
-		isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-		if (isGrounded && velocity.y < 0)
+		if (IsGrounded && velocity.y < 0)
 		{
 			velocity.y = -2f;
 		}
@@ -83,9 +89,9 @@ public class CharacterMovement : MonoBehaviour
 
 	private void Jump()
 	{
-		if (isGrounded)
+		if (IsGrounded)
 		{
-			velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+			velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
 		}
 	}
 }
