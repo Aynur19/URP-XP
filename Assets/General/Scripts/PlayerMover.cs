@@ -48,18 +48,28 @@ public class PlayerMover : MonoBehaviour
 
 		if (character != null)
 		{
-			var move = (transform.right * direction.x + transform.forward * direction.y) * scaledMoveSpeed;
-			character.Move(move);
-			velocity.y += gravity * Time.deltaTime;
-			character.Move(velocity * Time.deltaTime);
+			MoveWithCharacterController(direction, scaledMoveSpeed);
 		}
 		else
 		{
-			var moveDirection = new Vector3(direction.x, 0, direction.y);
-			transform.position += moveDirection * scaledMoveSpeed;
-			velocity.y += gravity * Time.deltaTime;
-			transform.position += velocity * Time.deltaTime;
+			MoveWithOutCharacterController(direction, scaledMoveSpeed);
 		}
+	}
+
+	private void MoveWithCharacterController(Vector2 direction, float scaledMoveSpeed)
+	{
+		var move = (transform.right * direction.x + transform.forward * direction.y) * scaledMoveSpeed;
+		character.Move(move);
+		velocity.y += gravity * Time.deltaTime;
+		character.Move(velocity * Time.deltaTime);
+	}
+
+	private void MoveWithOutCharacterController(Vector2 direction, float scaledMoveSpeed)
+	{
+		var moveDirection = new Vector3(direction.x, 0, direction.y);
+		transform.position += moveDirection * scaledMoveSpeed;
+		velocity.y += gravity * Time.deltaTime;
+		transform.position += velocity * Time.deltaTime;
 	}
 
 	private void UpdateVelosity()

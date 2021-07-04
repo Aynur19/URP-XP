@@ -7,8 +7,14 @@ public class MouseLook : MonoBehaviour
 	[SerializeField]
 	private float mouseSensitivity = 10f;
 
-    private PlayerInput actions;
-	private float xRotation = 0;
+	[SerializeField]
+	private float lowerGazeAngle = 70f;
+
+	[SerializeField]
+	private float upperGazeAngle = -70f;
+
+	private PlayerInput actions;
+	private float yRotation = 0;
 
 	private void Awake()
 	{
@@ -41,10 +47,10 @@ public class MouseLook : MonoBehaviour
 		var deltaX = deltaLook.x * mouseSensitivity * Time.deltaTime;
 		var deltaY = deltaLook.y * mouseSensitivity * Time.deltaTime;
 
-		xRotation -= deltaY;
-		xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+		yRotation -= deltaY;
+		yRotation = Mathf.Clamp(yRotation, upperGazeAngle, lowerGazeAngle);
 
-		transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+		transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
 		playerBody.Rotate(Vector3.up * deltaX);
 	}
 }
