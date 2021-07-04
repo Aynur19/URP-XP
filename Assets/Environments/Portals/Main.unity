@@ -29842,6 +29842,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1209761752803976969, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3963859497157845244, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
       propertyPath: m_Name
       value: Simple Environment
@@ -29889,6 +29893,18 @@ PrefabInstance:
     - target: {fileID: 3963859497157845247, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927034385602518875, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019746516758711930, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709219285369969878, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d7f9a79a68c6e441838940d90fd819e, type: 3}
